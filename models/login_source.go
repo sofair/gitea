@@ -129,6 +129,7 @@ type OAuth2Config struct {
 	ClientID                      string
 	ClientSecret                  string
 	OpenIDConnectAutoDiscoveryURL string
+	OpenIDCustomCallbackURL       string
 	CustomURLMapping              *oauth2.CustomURLMapping
 }
 
@@ -314,7 +315,7 @@ func CreateLoginSource(source *LoginSource) error {
 	_, err = x.Insert(source)
 	if err == nil && source.IsOAuth2() && source.IsActived {
 		oAuth2Config := source.OAuth2()
-		err = oauth2.RegisterProvider(source.Name, oAuth2Config.Provider, oAuth2Config.ClientID, oAuth2Config.ClientSecret, oAuth2Config.OpenIDConnectAutoDiscoveryURL, oAuth2Config.CustomURLMapping)
+		err = oauth2.RegisterProvider(source.Name, oAuth2Config.Provider, oAuth2Config.ClientID, oAuth2Config.ClientSecret, oAuth2Config.OpenIDConnectAutoDiscoveryURL, oAuth2Config.OpenIDCustomCallbackURL, oAuth2Config.CustomURLMapping)
 		err = wrapOpenIDConnectInitializeError(err, source.Name, oAuth2Config)
 		if err != nil {
 			// remove the LoginSource in case of errors while registering OAuth2 providers
@@ -391,7 +392,7 @@ func UpdateSource(source *LoginSource) error {
 	_, err := x.ID(source.ID).AllCols().Update(source)
 	if err == nil && source.IsOAuth2() && source.IsActived {
 		oAuth2Config := source.OAuth2()
-		err = oauth2.RegisterProvider(source.Name, oAuth2Config.Provider, oAuth2Config.ClientID, oAuth2Config.ClientSecret, oAuth2Config.OpenIDConnectAutoDiscoveryURL, oAuth2Config.CustomURLMapping)
+		err = oauth2.RegisterProvider(source.Name, oAuth2Config.Provider, oAuth2Config.ClientID, oAuth2Config.ClientSecret, oAuth2Config.OpenIDConnectAutoDiscoveryURL, oAuth2Config.OpenIDCustomCallbackURL, oAuth2Config.CustomURLMapping)
 		err = wrapOpenIDConnectInitializeError(err, source.Name, oAuth2Config)
 		if err != nil {
 			// restore original values since we cannot update the provider it self

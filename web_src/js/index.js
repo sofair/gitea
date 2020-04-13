@@ -1912,7 +1912,7 @@ function initAdmin() {
   }
 
   function onOAuth2Change() {
-    $('.open_id_connect_auto_discovery_url, .oauth2_use_custom_url').hide();
+    $('.open_id_connect_auto_discovery_url, .open_id_custom_callback_url, .oauth2_use_custom_url').hide();
     $('.open_id_connect_auto_discovery_url input[required]').removeAttr('required');
 
     const provider = $('#oauth2_provider').val();
@@ -1925,7 +1925,7 @@ function initAdmin() {
         break;
       case 'openidConnect':
         $('.open_id_connect_auto_discovery_url input').attr('required', 'required');
-        $('.open_id_connect_auto_discovery_url').show();
+        $('.open_id_connect_auto_discovery_url, .open_id_custom_callback_url').show();
         break;
     }
     onOAuth2UseCustomURLChange();
@@ -1988,7 +1988,7 @@ function initAdmin() {
           break;
         case '6': // OAuth2
           $('.oauth2').show();
-          $('.oauth2 div.required:not(.oauth2_use_custom_url,.oauth2_use_custom_url_field,.open_id_connect_auto_discovery_url) input').attr('required', 'required');
+          $('.oauth2 div.required:not(.oauth2_use_custom_url,.oauth2_use_custom_url_field,.open_id_connect_auto_discovery_url,.open_id_custom_callback_url) input').attr('required', 'required');
           onOAuth2Change();
           break;
         case '7': // SSPI

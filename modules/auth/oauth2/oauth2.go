@@ -7,6 +7,7 @@ package oauth2
 import (
 	"math"
 	"net/http"
+	"strings"
 
 	"code.gitea.io/gitea/modules/log"
 	"code.gitea.io/gitea/modules/setting"
@@ -103,8 +104,8 @@ func ProviderCallback(provider string, request *http.Request, response http.Resp
 }
 
 // RegisterProvider register a OAuth2 provider in goth lib
-func RegisterProvider(providerName, providerType, clientID, clientSecret, openIDConnectAutoDiscoveryURL string, customURLMapping *CustomURLMapping) error {
-	provider, err := createProvider(providerName, providerType, clientID, clientSecret, openIDConnectAutoDiscoveryURL, customURLMapping)
+func RegisterProvider(providerName, providerType, clientID, clientSecret, openIDConnectAutoDiscoveryURL string, openIDCustomCallbackURL string, customURLMapping *CustomURLMapping) error {
+	provider, err := createProvider(providerName, providerType, clientID, clientSecret, openIDConnectAutoDiscoveryURL, openIDCustomCallbackURL, customURLMapping)
 
 	if err == nil && provider != nil {
 		goth.UseProviders(provider)
@@ -119,7 +120,7 @@ func RemoveProvider(providerName string) {
 }
 
 // used to create different types of goth providers
-func createProvider(providerName, providerType, clientID, clientSecret, openIDConnectAutoDiscoveryURL string, customURLMapping *CustomURLMapping) (goth.Provider, error) {
+func createProvider(providerName, providerType, clientID, clientSecret, openIDConnectAutoDiscoveryURL string, openIDCustomCallbackURL string, customURLMapping *CustomURLMapping) (goth.Provider, error) {
 	callbackURL := setting.AppURL + "user/oauth2/" + providerName + "/callback"
 
 	var provider goth.Provider
@@ -171,6 +172,11 @@ func createProvider(providerName, providerType, clientID, clientSecret, openIDCo
 	case "gplus": // named gplus due to legacy gplus -> google migration (Google killed Google+). This ensures old connections still work
 		provider = google.New(clientID, clientSecret, callbackURL)
 	case "openidConnect":
+		log.Warn("%s %s", callbackURL, openIDCustomCallbackURL)
+		if len(strings.TrimSpace(openIDCustomCallbackURL)) > 0 {
+			callbackURL = openIDCustomCallbackURL
+		}
+		log.Warn("%s %s", callbackURL, openIDCustomCallbackURL)
 		if provider, err = openidConnect.New(clientID, clientSecret, callbackURL, openIDConnectAutoDiscoveryURL); err != nil {
 			log.Warn("Failed to create OpenID Connect Provider with name '%s' with url '%s': %v", providerName, openIDConnectAutoDiscoveryURL, err)
 		}

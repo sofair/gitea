@@ -193,6 +193,10 @@
 						<label for="open_id_connect_auto_discovery_url">{{.i18n.Tr "admin.auths.openIdConnectAutoDiscoveryURL"}}</label>
 						<input id="open_id_connect_auto_discovery_url" name="open_id_connect_auto_discovery_url" value="{{$cfg.OpenIDConnectAutoDiscoveryURL}}">
 					</div>
+					<div class="open_id_custom_callback_url field">
+						<label for="open_id_custom_callback_url">{{.i18n.Tr "admin.auths.openIdCustomCallbackURL"}}</label>
+						<input id="open_id_custom_callback_url" name="open_id_custom_callback_url" value="{{$cfg.OpenIDCustomCallbackURL}}">
+					</div>
 
 					<div class="oauth2_use_custom_url inline field">
 						<div class="ui checkbox">
