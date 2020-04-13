@@ -258,6 +258,11 @@ var (
 			Usage: "OpenID Connect Auto Discovery URL (only required when using OpenID Connect as provider)",
 		},
 		cli.StringFlag{
+			Name:  "custom-callback-url",
+			Value: "",
+			Usage: "OpenID Custom Callback URL (only required when using OpenID Connect as provider)",
+		},
+		cli.StringFlag{
 			Name:  "use-custom-urls",
 			Value: "false",
 			Usage: "Use custom URLs for GitLab/GitHub OAuth endpoints",
@@ -610,6 +615,7 @@ func parseOAuth2Config(c *cli.Context) *models.OAuth2Config {
 		ClientID:                      c.String("key"),
 		ClientSecret:                  c.String("secret"),
 		OpenIDConnectAutoDiscoveryURL: c.String("auto-discover-url"),
+		OpenIDCustomCallbackURL:       c.String("custom-callback-url"),
 		CustomURLMapping:              customURLMapping,
 		IconURL:                       c.String("icon-url"),
 	}
@@ -666,6 +672,10 @@ func runUpdateOauth(c *cli.Context) error {
 
 	if c.IsSet("icon-url") {
 		oAuth2Config.IconURL = c.String("icon-url")
+	}
+
+	if c.IsSet("custom-callback-url") {
+		oAuth2Config.OpenIDCustomCallbackURL = c.String("custom-callback-url")
 	}
 
 	// update custom URL mapping

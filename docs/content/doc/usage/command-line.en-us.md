@@ -109,6 +109,7 @@ Admin operations:
         - `--key`: Client ID (Key).
         - `--secret`: Client Secret.
         - `--auto-discover-url`: OpenID Connect Auto Discovery URL (only required when using OpenID Connect as provider).
+        - `--custom-callback-url`: OpenID Custom Callback URL (only required when using OpenID Connect as provider).
         - `--use-custom-urls`: Use custom URLs for GitLab/GitHub OAuth endpoints.
         - `--custom-auth-url`: Use a custom Authorization URL (option for GitLab/GitHub).
         - `--custom-token-url`: Use a custom Token URL (option for GitLab/GitHub).
@@ -125,6 +126,7 @@ Admin operations:
         - `--key`: Client ID (Key).
         - `--secret`: Client Secret.
         - `--auto-discover-url`: OpenID Connect Auto Discovery URL (only required when using OpenID Connect as provider).
+        - `--custom-callback-url`: OpenID Custom Callback URL (only required when using OpenID Connect as provider).
         - `--use-custom-urls`: Use custom URLs for GitLab/GitHub OAuth endpoints.
         - `--custom-auth-url`: Use a custom Authorization URL (option for GitLab/GitHub).
         - `--custom-token-url`: Use a custom Token URL (option for GitLab/GitHub).
